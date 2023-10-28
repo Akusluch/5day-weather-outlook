@@ -2,10 +2,10 @@ var apikey = "0fd9a20b9ab89abff80b203942e7a06d";
 var citysearch = $('#citysearch');
 var searchbtn = $('#searchbtn');
 
-searchbtn.on("click", getlatlon());
+searchbtn.on("click", getlatlon);
 
 function getlatlon() {
-    var city = citysearch.textContent;
+    var city = citysearch[0].value;
     var geocodingurl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ",us&appid=" + apikey;
     fetch(geocodingurl)
         .then(function (response) {
@@ -13,9 +13,9 @@ function getlatlon() {
         })
         .then(function (data) {
         console.log(data);
-        var lat = data[0].lat
-        var lon = data[0].lon
-        return getfiveday(lat,lon)
+        var lat = data[0].lat;
+        var lon = data[0].lon;
+        return getfiveday(lat,lon);
         });
 }
 
