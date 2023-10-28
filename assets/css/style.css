@@ -1,0 +1,29 @@
+label {
+    text-align: center;
+    margin-top: 10px;
+}
+
+main{
+    display: flex;
+}
+
+#banner {
+    display: flex;
+    justify-content: center;
+    background-color: darkorange;
+}
+
+#search {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#citysearch {
+    margin: 20px;
+}
+
+#weather {
+    display: flex;
+    flex-direction: column;
+}
