@@ -20,7 +20,7 @@ function getlatlon() {
 }
 
 function getfiveday(lat,lon) {
-    var fiveday = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apikey;
+    var fiveday = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=" + apikey;
     fetch(fiveday) 
         .then(function (response) {
             return response.json();
