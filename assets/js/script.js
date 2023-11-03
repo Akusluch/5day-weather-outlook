@@ -27,6 +27,30 @@ function getfiveday(lat,lon) {
         })
         .then(function (data) {
             console.log(data);
+            var today = data.list[0]
+            todayWeather(today);
+            // fivedayWeather(data);
         })
 }
 
+function todayWeather(today) {
+    console.log(today);
+    var currentdiv = $('#current');
+    var todayul = $('<ul>');
+    var todayTemp = $('<li>');
+    var todayHum = $('<li>');
+    var todayWind = $('<li>');
+
+    todayTemp.text("Temp: " + today.main.temp + "°F");
+    todayHum.text("Humidity: " + today.main.humidity + "%");
+    todayWind.text("Wind: " + today.wind.speed + "MPH");
+
+    currentdiv.append(todayul);
+    todayul.append(todayTemp);
+    todayul.append(todayWind);
+    todayul.append(todayHum);
+}
+
+// function fivedayWeather(data) {
+
+// }

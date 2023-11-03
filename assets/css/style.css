@@ -26,4 +26,10 @@ main{
 #weather {
     display: flex;
     flex-direction: column;
+    margin: 10%;
+    border: black solid 3px;
+}
+
+#five-day {
+    display: flex;
 }
