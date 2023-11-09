@@ -7,6 +7,14 @@ main{
     display: flex;
 }
 
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin: 1rem;
+}
+
 #banner {
     display: flex;
     justify-content: center;

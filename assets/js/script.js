@@ -15,11 +15,11 @@ function getlatlon() {
         console.log(data);
         var lat = data[0].lat;
         var lon = data[0].lon;
-        return getfiveday(lat,lon);
+        return getfiveday(lat,lon, city);
         });
 }
 
-function getfiveday(lat,lon) {
+function getfiveday(lat,lon, city) {
     var fiveday = "https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=" + lat + "&lon=" + lon + "&appid=" + apikey;
     fetch(fiveday) 
         .then(function (response) {
@@ -28,19 +28,21 @@ function getfiveday(lat,lon) {
         .then(function (data) {
             console.log(data);
             var today = data.list[0]
-            todayWeather(today);
-            // fivedayWeather(data);
+            todayWeather(today, city);
+            fivedayWeather(data);
         })
 }
 
-function todayWeather(today) {
+function todayWeather(today, city) {
     console.log(today);
     var currentdiv = $('#current');
+    var currentCity = $("#currentCity")
     var todayul = $('<ul>');
     var todayTemp = $('<li>');
     var todayHum = $('<li>');
     var todayWind = $('<li>');
 
+    currentCity.text(city + " " + today.dt_txt)
     todayTemp.text("Temp: " + today.main.temp + "°F");
     todayHum.text("Humidity: " + today.main.humidity + "%");
     todayWind.text("Wind: " + today.wind.speed + "MPH");
@@ -51,6 +53,27 @@ function todayWeather(today) {
     todayul.append(todayHum);
 }
 
-// function fivedayWeather(data) {
+function fivedayWeather(data) {
+    console.log(data);
+    var weatherData = data.list
 
-// }
+    for (i=8; i < weatherData.length; i++) {
+        var fivedaydiv = $('#five-day')
+        var fivedayul = $('<ul>');
+        var dateli = $('<li>');
+        var fivedayTemp = $('<li>');
+        var fivedayHum = $('<li>');
+        var fivedayWind = $('<li>');
+
+        dateli.text(weatherData[i].dt_txt)
+        fivedayTemp.text("Temp: " + weatherData[i].main.temp + "°F");
+        fivedayHum.text("Humidity: " + weatherData[i].main.humidity + "%");
+        fivedayWind.text("Wind: " + weatherData[i].wind.speed + "MPH");
+
+        fivedaydiv.append(fivedayul);
+        fivedayul.append(dateli);
+        fivedayul.append(fivedayTemp);
+        fivedayul.append(fivedayWind);
+        fivedayul.append(fivedayHum);
+    }
+}
