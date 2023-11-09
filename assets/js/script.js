@@ -1,10 +1,12 @@
 var apikey = "0fd9a20b9ab89abff80b203942e7a06d";
 var citysearch = $('#citysearch');
 var searchbtn = $('#searchbtn');
+var recentSearch = $('#recent');
+var citys = []
 
-searchbtn.on("click", getlatlon);
+// searchbtn.on("click", getlatlon);
 
-function getlatlon() {
+function getlatlon(city) {
     var city = citysearch[0].value;
     var geocodingurl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ",us&appid=" + apikey;
     fetch(geocodingurl)
@@ -36,6 +38,7 @@ function getfiveday(lat,lon, city) {
 function todayWeather(today, city) {
     console.log(today);
     var currentdiv = $('#current');
+    currentdiv.html("");
     var currentCity = $("#currentCity")
     var todayul = $('<ul>');
     var todayTemp = $('<li>');
@@ -55,10 +58,12 @@ function todayWeather(today, city) {
 
 function fivedayWeather(data) {
     console.log(data);
+    var fivedaydiv = $('#five-day')
+    fivedaydiv.html("");
+    
     var weatherData = data.list
 
     for (i=8; i < weatherData.length; i++) {
-        var fivedaydiv = $('#five-day')
         var fivedayul = $('<ul>');
         var dateli = $('<li>');
         var fivedayTemp = $('<li>');
@@ -77,3 +82,45 @@ function fivedayWeather(data) {
         fivedayul.append(fivedayHum);
     }
 }
+
+if(localStorage.getItem("citys")){
+    citys = JSON.parse(localStorage.getItem("citys"))
+    renderCitys();
+}
+
+searchbtn.on("click", function() {
+    getlatlon()
+    var city = citysearch[0].value;
+    citys.push(city);
+
+    if(citys.length > 6){
+        citys.shift();
+    }
+
+    localStorage.setItem("citys", JSON.stringify(citys));
+    renderCitys();
+})
+
+function renderCitys() {
+    recentSearch.html("");
+
+    for(var i = 0; i < citys.length; i++) {
+        var city = citys[i];
+
+        // create
+        var cityli = document.createElement("li");
+        var buttonEl = document.createElement("button");
+        //attr/text
+        buttonEl.setAttribute("data-city", city);
+        buttonEl.setAttribute("class", "button");
+        buttonEl.textContent = city;
+        //append
+        recentSearch.append(cityli);
+        cityli.append(buttonEl);
+    }
+}
+
+recentSearch.on("click", ".button", function() {
+    var city = this.textContent;
+    getlatlon(city)
+})
