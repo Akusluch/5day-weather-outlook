@@ -6,8 +6,14 @@ var citys = []
 
 // searchbtn.on("click", getlatlon);
 
-function getlatlon(city) {
-    var city = citysearch[0].value;
+function getlatlon(recent) {
+    console.log(recent)
+    if(recent === undefined){
+        var city = citysearch[0].value;  
+    } else {
+        var city = recent
+    }
+    console.log(city)
     var geocodingurl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + ",us&appid=" + apikey;
     fetch(geocodingurl)
         .then(function (response) {
@@ -36,10 +42,10 @@ function getfiveday(lat,lon, city) {
 }
 
 function todayWeather(today, city) {
-    console.log(today);
+    // console.log(today);
     var currentdiv = $('#current');
     currentdiv.html("");
-    var currentCity = $("#currentCity")
+    var currentCity = $("<h3>");
     var todayul = $('<ul>');
     var todayTemp = $('<li>');
     var todayHum = $('<li>');
@@ -50,6 +56,7 @@ function todayWeather(today, city) {
     todayHum.text("Humidity: " + today.main.humidity + "%");
     todayWind.text("Wind: " + today.wind.speed + "MPH");
 
+    currentdiv.append(currentCity)
     currentdiv.append(todayul);
     todayul.append(todayTemp);
     todayul.append(todayWind);
@@ -57,13 +64,13 @@ function todayWeather(today, city) {
 }
 
 function fivedayWeather(data) {
-    console.log(data);
+    // console.log(data);
     var fivedaydiv = $('#five-day')
     fivedaydiv.html("");
     
     var weatherData = data.list
 
-    for (i=8; i < weatherData.length; i++) {
+    for (i=7; i < weatherData.length; i+= 8) {
         var fivedayul = $('<ul>');
         var dateli = $('<li>');
         var fivedayTemp = $('<li>');
@@ -121,6 +128,6 @@ function renderCitys() {
 }
 
 recentSearch.on("click", ".button", function() {
-    var city = this.textContent;
-    getlatlon(city)
+    var recent = this.textContent;
+    getlatlon(recent)
 })
