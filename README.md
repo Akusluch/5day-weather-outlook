@@ -10,6 +10,8 @@ This site can be used to view todays weather along with the weather for the next
 
 ![Deployed site](./assets/images/screenshot.png)
 
+Deployed site
+https://akusluch.github.io/5day-weather-outlook/
 
 ## License
 
